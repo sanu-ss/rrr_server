@@ -119,7 +119,7 @@ public class ExcelUploadDaoImp implements ExcelUploadDao {
 					inserQuery.setParameter(setCount++, "");
 			}	
 			inserQuery.executeUpdate();
-			if (++count % 30 == 0){
+			if (++count % 50 == 0){
 				session.flush();
 				session.clear();
 			}

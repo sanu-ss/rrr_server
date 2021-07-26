@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -51,6 +52,11 @@ public class ConfigUtils {
 		return false;
 	}
 
+	public static String convertDateString(LocalDate date){	
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+		return formatter.format(date);
+	}
+	
 	public static void removeFilefromDirectory(String fileDirectory){
 		LOGGER.info("ConfigUtils >>> Inside removeFilefromDirectory method");
 		try {

@@ -63,5 +63,6 @@ public class MappingConfigServiceImp implements MappingConfigService{
 	public boolean checkColunmMapping(MappingDetails mdetails,Principal pricipal) {
 		return this.mappingConfigDao.checkColumnMapping(mdetails,pricipal);
 	}
+	
 
 }

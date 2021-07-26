@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.rrrs.mappingconfig.entity.MappingDetails;
+import com.rrrs.processmapping.entity.DownloadAgain;
 @Service
 public interface MappingConfigService {
 
@@ -22,6 +23,5 @@ public interface MappingConfigService {
 	Integer saveAndUpdateMapping(MappingDetails mappingDetails, Principal principal);
 
 	boolean checkColunmMapping(MappingDetails mdetails,Principal pricipal);
-	
 
 }

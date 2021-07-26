@@ -1,5 +1,6 @@
 package com.rrrs.mappingconfig.dao;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.sql.CallableStatement;
@@ -27,6 +28,7 @@ import com.rrrs.mappingconfig.entity.MappingDetails;
 import com.rrrs.mappingconfig.entity.RRRCoreTableColDtls;
 import com.rrrs.mappingconfig.entity.RrrCoreTablesDtls;
 import com.rrrs.mappingconfig.entity.RrrSourceTableDtls;
+import com.rrrs.processmapping.entity.DownloadAgain;
 import com.rrrs.tableconfig.entities.ConfigInfo;
 import com.rrrs.util.CurrentUserDbDtls;
 import com.rrrs.util.ReadPropertyFile;
@@ -268,8 +270,8 @@ public class MappingConfigDaoImp implements MappingConfigDao{
 		}
 		Transaction tx = session.beginTransaction();
 		try {
-			session.save(mappingDetails);
-			executeMappingConvertProc(session,mappingDetails);
+			int saveId = (Integer)session.save(mappingDetails);
+			System.out.println("save id-->"+saveId);
 			tx.commit();
 			System.out.println("data inserted");
 		}catch(Exception exc){
@@ -277,6 +279,7 @@ public class MappingConfigDaoImp implements MappingConfigDao{
 			tx.rollback();
 		}
 		
+		executeMappingConvertProc(session,mappingDetails);
 		return mappingDetails.getMappingId();
 	}
 	
@@ -286,13 +289,13 @@ public class MappingConfigDaoImp implements MappingConfigDao{
 		procedure.registerStoredProcedureParameter("P_PROCESS_ID", Integer.class,ParameterMode.IN);
 		procedure.registerStoredProcedureParameter("P_COMPANY_ID", Integer.class,ParameterMode.IN);
 		procedure.registerStoredProcedureParameter("p_status", Integer.class,ParameterMode.OUT);
-		
+		System.out.println("mappingDetails.getMappingId()-->"+mappingDetails.getMappingId());
 		procedure.setParameter("P_PROCESS_ID",mappingDetails.getMappingId());
 		procedure.setParameter("P_COMPANY_ID",mappingDetails.getRrrCommonDtls().getCompanyId());
 		procedure.execute();
-		String status =(String)procedure.getOutputParameterValue("p_status");
+		int status =(Integer)procedure.getOutputParameterValue("p_status");
 		System.out.println("status-->"+status);
-		
 	}
+	
 
 }

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rrrs.mappingconfig.entity.MappingDetails;
 import com.rrrs.mappingconfig.entity.MappingResponseData;
-import com.rrrs.mappingconfig.entity.RrrProcessDtls;
 import com.rrrs.mappingconfig.service.MappingConfigService;
 import com.rrrs.util.BooleanResponseData;
 import com.rrrs.util.CurrentUserDbDtls;
@@ -105,6 +104,5 @@ public class MappingConfigController {
 		System.out.println("last datat-->"+mappingDetails);
 		return new ResponseEntity<>(new MappingResponseData(mappingDetails.getMappingId(),message),HttpStatus.OK);
 	}
-	
 	
 }
