@@ -29,7 +29,7 @@ public class RRRSalesReportingDtls {
 	@SequenceGenerator(name="RRR_SALES_REPORTING_SEQ", sequenceName = "RRR_SALES_REPORTING_SEQ" ,allocationSize = 1)
 	@Column(name = "REPORT_ID",nullable = false)
 	private int reportId;
-	@Column(name = "REPORT_NAME",nullable = false,length = 50)
+	@Column(name = "REPORT_NAME",nullable = false,length = 50,unique = true)
 	private String reportName;
 	@Column(name = "PRIMARY_CONDITION",nullable = false,length = 500)
 	private String primaryCondition;

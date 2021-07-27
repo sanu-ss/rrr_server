@@ -16,4 +16,6 @@ public interface SalesReportingService {
 
 	Boolean checkRelation(RRRSalesReportingDtls salesReportingDtls, Principal principal);
 
+	Integer createrule(RRRSalesReportingDtls salesReportingDtls, Principal principal);
+
 }

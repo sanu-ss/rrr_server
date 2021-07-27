@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rrrs.salesReporting.entities.RRRSalesReportingDtls;
 import com.rrrs.salesReporting.service.SalesReportingService;
+import com.rrrs.util.ResponseData;
 
 import net.bytebuddy.asm.Advice.This;
 
@@ -41,9 +42,17 @@ public class SalesReportingController {
 		return new ResponseEntity<>(this.salesReportingService.checkRelation(salesReportingDtls,principal),HttpStatus.OK);
 	}
 
-//	@PostMapping(value = "/createrule")
-//	public ResponseEntity<?> createrule(@RequestBody RRRSalesReportingDtls salesReportingDtls,Principal principal ){
-//		
-//		return new ResponseEntity<>();
-//	}
+	@PostMapping(value = "/createrule")
+	public ResponseEntity<?> createrule(@RequestBody RRRSalesReportingDtls salesReportingDtls,Principal principal ){
+		String modeOfprocess = "";
+		String message = "";
+		Integer processId = this.salesReportingService.createrule(salesReportingDtls,principal);
+		if(processId>0) {
+			message="Reporting Rule Created Successfully";
+		}else {
+			message="Error while creating Reporting Rule";
+		}
+		
+		return new ResponseEntity<>(new ResponseData(message),HttpStatus.OK);
+	}
 }

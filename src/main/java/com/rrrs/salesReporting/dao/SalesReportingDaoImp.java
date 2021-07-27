@@ -15,6 +15,7 @@ import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Repository;
 import com.rrrs.mappingconfig.dao.MappingConfigDaoImp;
 import com.rrrs.salesReporting.entities.CoreAndSourceTabColdtls;
 import com.rrrs.salesReporting.entities.CoreAndSourceTableDtls;
+import com.rrrs.salesReporting.entities.RRRSalesReportingDtls;
 import com.rrrs.util.CurrentUserDbDtls;
 import com.rrrs.util.ReadPropertyFile;
 @Repository
@@ -138,6 +140,41 @@ public class SalesReportingDaoImp implements SalesReportingDao{
 		if(status.get(0)!=null && status.get(0).equalsIgnoreCase("Y"))
 			return true;
 		return false;
+	}
+	@Override
+	public Integer createrule(RRRSalesReportingDtls salesReportingDtls, Principal principal) {
+		Session session = this.entityManager.unwrap(Session.class);
+		String tables=salesReportingDtls.getSelectedTables();
+		tables=tables.substring(0,tables.length()-1);
+		salesReportingDtls.setSelectedTables(tables);
+		String selectedColumn=salesReportingDtls.getSelectedColumn();
+		selectedColumn=selectedColumn.substring(0,selectedColumn.length()-1);
+		salesReportingDtls.setSelectedColumn(selectedColumn);
+		String orgSelectedTab=salesReportingDtls.getOrgSelectedTab();
+		orgSelectedTab=orgSelectedTab.substring(0,orgSelectedTab.length()-1);
+		salesReportingDtls.setOrgSelectedTab(orgSelectedTab);
+		String orgSelectedCol=salesReportingDtls.getOrgSelectedCol();
+		orgSelectedCol=orgSelectedCol.substring(0,orgSelectedCol.length()-1);
+		salesReportingDtls.setOrgSelectedCol(orgSelectedCol);
+		String relation=salesReportingDtls.getPrimaryCondition();
+		String[] tab = tables.split(",");
+		String[] orgTab = orgSelectedTab.split(",");
+		for(int index=0;index<tab.length;index++){
+			relation=relation.replace(tab[index], orgTab[index]);
+		}
+		salesReportingDtls.setOrgPrimaryCondition(relation);
+		Transaction tx = session.beginTransaction();
+		try {
+			session.persist(salesReportingDtls);
+			tx.commit();
+		} catch (Exception e) {
+			salesReportingDtls.setReportId(-1);
+			System.out.println("Error while saving data in DB");
+			tx.rollback();
+		}
+		
+		
+		return salesReportingDtls.getReportId();
 	}
 	
 	

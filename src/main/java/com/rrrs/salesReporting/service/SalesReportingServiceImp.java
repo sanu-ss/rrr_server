@@ -44,4 +44,9 @@ public class SalesReportingServiceImp implements SalesReportingService{
 		return this.salesReportingDao.checkRelation(relation,OrgTabName);
 	}
 
+	@Override
+	public Integer createrule(RRRSalesReportingDtls salesReportingDtls, Principal principal) {
+		return this.salesReportingDao.createrule( salesReportingDtls,  principal);
+	}
+
 }

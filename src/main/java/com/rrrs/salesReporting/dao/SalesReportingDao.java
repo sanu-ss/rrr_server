@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.rrrs.salesReporting.entities.CoreAndSourceTableDtls;
+import com.rrrs.salesReporting.entities.RRRSalesReportingDtls;
 @Repository
 public interface SalesReportingDao {
 
@@ -14,5 +15,7 @@ public interface SalesReportingDao {
 	Boolean checkReportingName(String reportName, Principal principal);
 
 	Boolean checkRelation(String relation, String orgTabName);
+
+	Integer createrule(RRRSalesReportingDtls salesReportingDtls, Principal principal);
 
 }
